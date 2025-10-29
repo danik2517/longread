@@ -114,8 +114,8 @@
             content: `
                 <div class="article-info">
                     <div class="article-info-item"><i class="far fa-clock"></i> 5 мин чтения</div>
-                    <div class="article-info-item"><i class="far fa-calendar"></i> 28 октября 2025</div>
-                    <div class="article-info-item"><i class="far fa-folder"></i> Культурный анализ</div>
+                    <div class="article-info-item"><i class="far fa-calendar"></i> 29 октября 2025</div>
+                    <div class="article-info-item"><i class="far fa-folder"></i> Социальный анализ</div>
                 </div>
                 <img src="20.jpg" alt="Тру-крайм" class="modal-image">
                 <h1>Тру-крайм: как реальные истории о маньяках изменили наш взгляд на преступления</h1>
@@ -162,4 +162,5 @@
         }
 
     ];
+
 
