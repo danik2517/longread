@@ -843,6 +843,29 @@
     // Текущий режим просмотра
     let currentView = 'grid';
 
+    // Функция для открытия статьи по якорю
+    function openArticleByAnchor() {
+        const hash = window.location.hash.substring(1);
+        console.log('Checking hash:', hash, 'Articles:', articles);
+        if (hash && articles && articles.length > 0) {
+            const article = articles.find(a => a.anchor === hash);
+            if (article) {
+                console.log('Found article by anchor:', article.title);
+                openArticle(article.id);
+            } else {
+                console.log('No article found for anchor:', hash);
+            }
+        }
+    }
+
+    // Функция для обновления URL при открытии модального окна
+    function updateUrlForArticle(article) {
+        if (article.anchor) {
+            const newUrl = `${window.location.pathname}#${article.anchor}`;
+            window.history.pushState({}, '', newUrl);
+        }
+    }
+
     // Функция для отображения статей в режиме плиток
     function renderGridArticles(articlesToRender = articles) {
         articlesContainer.className = 'articles-grid';
@@ -925,6 +948,9 @@
         } else {
             renderListArticles(sortedArticles);
         }
+        
+        // После рендера статей проверяем якорь
+        setTimeout(openArticleByAnchor, 100);
     }
 
     // Функция поиска статей
@@ -961,28 +987,11 @@
         renderArticles(filteredArticles);
     }
 
-    // Функция для открытия статьи по якорю
-    function openArticleByAnchor() {
-        const hash = window.location.hash.substring(1);
-        if (hash) {
-            const article = articles.find(a => a.anchor === hash);
-            if (article) {
-                openArticle(article.id);
-            }
-        }
-    }
-
-    // Функция для обновления URL при открытии модального окна
-    function updateUrlForArticle(article) {
-        if (article.anchor) {
-            const newUrl = `${window.location.pathname}#${article.anchor}`;
-            window.history.pushState({}, '', newUrl);
-        }
-    }
-
     // Функция для открытия статьи в модальном окне
     function openArticle(articleId) {
         const article = articles.find(a => a.id === articleId);
+        if (!article) return;
+        
         const modal = document.getElementById('article-modal');
         const modalBody = document.getElementById('modal-body');
         
@@ -1068,14 +1077,21 @@
     // Обработчик изменения хэша в URL
     window.addEventListener('hashchange', openArticleByAnchor);
 
+    // Обработчик навигации по истории (кнопки назад/вперед)
+    window.addEventListener('popstate', openArticleByAnchor);
+
     // Инициализация при загрузке страницы
     document.addEventListener('DOMContentLoaded', () => {
         renderArticles();
-        // Проверяем якорь при загрузке страницы
-        openArticleByAnchor();
+    });
+
+    // Дополнительная проверка после полной загрузки страницы
+    window.addEventListener('load', () => {
+        setTimeout(openArticleByAnchor, 500);
     });
 </script>
 </body>
 
 </html>
+
 
