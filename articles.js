@@ -7,6 +7,7 @@
             category: "Социальный анализ",
             readingTime: "3 мин",
             date: "29 сентября 2025",
+			anchor: "survival_games",
             tags: ["squid game", "alice in borderland", "социальный анализ", "игры на выживание", "капитализм"],
             content: `
                 <div class="article-info">
@@ -51,6 +52,7 @@
             category: "Социальный анализ",
             readingTime: "4 мин",
             date: "25 августа 2025",
+			anchor: "food-metaphor",
             tags: ["магазинные воришки", "корээда", "японское кино", "еда", "семья", "социальный анализ"],
             content: `
                 <div class="article-info">
@@ -107,6 +109,7 @@
             category: "Социальный анализ",
             readingTime: "5 мин",
             date: "28 октября 2025",
+			anchor: "true_crime",
             tags: ["тру-крайм", "сериалы", "маньяки", "психология", "этика", "Netflix", "российское кино"],
             content: `
                 <div class="article-info">
@@ -159,3 +162,4 @@
         }
 
     ];
+
