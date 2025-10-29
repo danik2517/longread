@@ -832,7 +832,6 @@
 </script>
 <script src="articles.js"></script>
 <script>
-    // Данные статей
     // Элементы DOM
     const searchInput = document.getElementById('search-input');
     const clearSearch = document.getElementById('clear-search');
@@ -962,6 +961,40 @@
         renderArticles(filteredArticles);
     }
 
+    // Функция для открытия статьи по якорю
+    function openArticleByAnchor() {
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+            const article = articles.find(a => a.anchor === hash);
+            if (article) {
+                openArticle(article.id);
+            }
+        }
+    }
+
+    // Функция для обновления URL при открытии модального окна
+    function updateUrlForArticle(article) {
+        if (article.anchor) {
+            const newUrl = `${window.location.pathname}#${article.anchor}`;
+            window.history.pushState({}, '', newUrl);
+        }
+    }
+
+    // Функция для открытия статьи в модальном окне
+    function openArticle(articleId) {
+        const article = articles.find(a => a.id === articleId);
+        const modal = document.getElementById('article-modal');
+        const modalBody = document.getElementById('modal-body');
+        
+        modalBody.innerHTML = article.content;
+        modal.style.display = 'block';
+        
+        document.body.style.overflow = 'hidden';
+        
+        // Обновляем URL с якорем
+        updateUrlForArticle(article);
+    }
+
     // Обработчик ввода в поиске
     searchInput.addEventListener('input', function() {
         const query = this.value;
@@ -1013,22 +1046,12 @@
         renderArticles();
     });
 
-    // Функция для открытия статьи в модальном окне
-    function openArticle(articleId) {
-        const article = articles.find(a => a.id === articleId);
-        const modal = document.getElementById('article-modal');
-        const modalBody = document.getElementById('modal-body');
-        
-        modalBody.innerHTML = article.content;
-        modal.style.display = 'block';
-        
-        document.body.style.overflow = 'hidden';
-    }
-
     // Закрытие модального окна
     document.getElementById('close-modal').addEventListener('click', () => {
         document.getElementById('article-modal').style.display = 'none';
         document.body.style.overflow = 'auto';
+        // Очистить якорь при закрытии
+        window.history.pushState({}, '', window.location.pathname);
     });
 
     // Закрытие модального окна при клике вне его
@@ -1037,14 +1060,22 @@
         if (event.target === modal) {
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+            // Очистить якорь при закрытии
+            window.history.pushState({}, '', window.location.pathname);
         }
     });
+
+    // Обработчик изменения хэша в URL
+    window.addEventListener('hashchange', openArticleByAnchor);
 
     // Инициализация при загрузке страницы
     document.addEventListener('DOMContentLoaded', () => {
         renderArticles();
+        // Проверяем якорь при загрузке страницы
+        openArticleByAnchor();
     });
 </script>
 </body>
 
 </html>
+
